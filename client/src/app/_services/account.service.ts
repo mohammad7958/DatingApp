@@ -31,15 +31,21 @@ export class AccountService {
     return this.http.post(this.baseUrl+'account/register', model).pipe(
       map(user => {
         if(user) {
-          this.setCurrentUser(user);
+          this.setCurrentUser(user as User);
         }
       })
     )
   }
 
-  setCurrentUser(user: any) {
-    localStorage.setItem('user' , JSON.stringify(user));
+  setCurrentUser(user: User | undefined) {
+    if(user != null && user != undefined)
+    {
+      localStorage.setItem('user' , JSON.stringify(user));
+    }
+    
     this.currentUserSource.next(user);
+    
+    
   }
 
   logout() {
